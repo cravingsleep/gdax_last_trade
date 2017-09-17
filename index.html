@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<script>
+			const endpoint = "https://api.gdax.com/products/ETH-EUR/trades?limit=1";
+		
+			const priceRegex = /[0-9]*.\d\d/;
+
+			setInterval(function() {
+				fetch(endpoint).then(response => {
+					response.json().then(json => {
+						const lastTrade = json[0];
+						
+						const prettyPrice = lastTrade.price.match(priceRegex)[0];				
+						window.document.title = "€" + prettyPrice;
+					});
+				}).catch(error => {
+					console.log(error);
+				});
+			}, 1000);
+		</script>
+	</body>
+</html>
